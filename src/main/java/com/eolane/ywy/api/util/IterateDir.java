@@ -2,6 +2,8 @@ package com.eolane.ywy.api.util;
 
 import com.eolane.ywy.api.dto.DirBean;
 import com.eolane.ywy.api.dto.FileBean;
+import com.eolane.ywy.api.properties.FileExploreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +13,8 @@ import java.util.List;
 
 
 public class IterateDir {
-
+    @Autowired
+    private static FileExploreProperties fileExploreProperties;
 
     /*
      * 通过递归得到某一路径下所有的目录及其文件
@@ -29,7 +32,7 @@ public class IterateDir {
                 for (File file : files) {
                     FileBean fileBean = new FileBean();
                     String realPath = file.getAbsolutePath();
-                    fileBean.setFilePath(realPath);
+                    fileBean.setFilePath(realPath.replace("C:\\upload", "Document"));
                     fileBean.setFileName(getFileName(realPath));
                     if (file.isDirectory()) {
                         fileBean.setFileType("DIR");
@@ -47,7 +50,7 @@ public class IterateDir {
             }
             dirBean.setDirCount(dirCount);
             dirBean.setDirSize(dirSize);
-            dirBean.setDirPath(dirPath);
+            dirBean.setDirPath(dirPath.replace("C:\\upload", "Document"));
             dirBean.setFiles(fileList);
         } else {
             System.out.println("文件或文件目录不存在");
